@@ -3,20 +3,29 @@ version: 0.2
 phases: 
     build:
         commands:
-            - echo "Build block"
-            - ls
-            - echo "Running tests to check if "Congratulations" present in index.html file"
-            - grep "Congratulations" index.html
+            - echo "Post build phase"
+            - |
+              # Deployment Script
+              # Clone the GitHub repository, build, and deploy
+
+              # Clone the repository to a temporary directory
+              git clone -b master https://github.com/armaanroohi/code_deploy_demo-main.git /tmp/deployment
+
+              # Copy the built files to the web server directory
+              ls /tmp/deployment/
+              sudo cp -r /tmp/deployment/* /var/www/html
+              
+              # Clean up the temporary directory
+              rm -rf /tmp/deployment
+
     post_build:
         commands:
-            - echo "Post build phase"
+            - echo "Post-build phase"
 artifacts:
     files:
         - scripts/install_dependencies
         - scripts/start_server
         - scripts/stop_server
         - index.html
-        - appspec.yml
+        - appspec.yml  
     discard-paths: yes
-
-            
